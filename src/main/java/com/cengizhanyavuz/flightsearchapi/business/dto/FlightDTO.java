@@ -16,8 +16,8 @@ import java.io.Serializable;
 @Builder
 public class FlightDTO extends AuditingAwareBaseDto implements Serializable {
     private Long id;
-    private AirportDto departureAirport;
-    private AirportDto arrivalAirport;
+    private Long departureAirportId;
+    private Long arrivalAirportId;
     private String departureDateTime;
     private String returnDateTime;
     private double price;

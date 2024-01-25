@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface IFlightRepository extends CrudRepository<Flight,Long> {
 
-    Optional<Flight> findByFlightName(String projectName);
+
 }

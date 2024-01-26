@@ -2,6 +2,7 @@ package com.cengizhanyavuz.flightsearchapi.business.service.impl;
 
 import com.cengizhanyavuz.flightsearchapi.bean.ModelMapperBean;
 import com.cengizhanyavuz.flightsearchapi.business.dto.FlightDTO;
+import com.cengizhanyavuz.flightsearchapi.business.dto.FlightSearchResult;
 import com.cengizhanyavuz.flightsearchapi.business.service.IFlightService;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Airport;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Flight;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,6 +102,26 @@ public class FlightService implements IFlightService<FlightDTO, Flight> {
             throw new NullPointerException("Unable to find the flight with ID " + id);
         }
         return flightFindDto;
+    }
+
+    @Override
+    public FlightSearchResult searchFlights(Long departureAirportId, Long arrivalAirportId, LocalDateTime departureDateTime,
+                                            LocalDateTime returnDateTime) {
+        List<FlightDTO> outboundFlights = searchFlights(departureAirportId, arrivalAirportId, departureDateTime);
+        List<FlightDTO> returnFlights = null;
+        if (returnDateTime != null) {
+            returnFlights = searchFlights(arrivalAirportId, departureAirportId, returnDateTime);
+        }
+        return new FlightSearchResult(outboundFlights, returnFlights);
+    }
+    private List<FlightDTO> searchFlights(Long departureCity, Long arrivalCity, LocalDateTime departureDate) {
+        Iterable<Flight> flights = flightRepository
+                .findAllByDepartureAirportIdAndArrivalAirportIdAndDepartureDateTime(departureCity, arrivalCity, departureDate);
+        List<FlightDTO> flightDtoList = new ArrayList<>();
+        for (Flight flight : flights) {
+            flightDtoList.add(entityToDto(flight));
+        }
+        return flightDtoList;
     }
 
     private Airport findAirportById(Long id) {

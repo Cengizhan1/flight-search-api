@@ -1,5 +1,8 @@
 package com.cengizhanyavuz.flightsearchapi.business.service;
 
+import com.cengizhanyavuz.flightsearchapi.business.dto.FlightSearchResult;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IFlightService<D, E> {
@@ -24,4 +27,6 @@ public interface IFlightService<D, E> {
 
     // DELETE
     public D flightServiceDeleteById(Long id);
+
+    FlightSearchResult searchFlights(Long departureAirportId, Long arrivalAirportId, LocalDateTime departureDateTime, LocalDateTime returnDateTime);
 }

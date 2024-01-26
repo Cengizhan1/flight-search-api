@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import java.time.LocalDateTime;
 
 @Data
 @Log4j2
@@ -24,10 +25,10 @@ public class Flight  extends BaseEntity {
     private Airport arrivalAirport;
 
     @Column(name = "departure_datetime")
-    private String departureDateTime;
+    private LocalDateTime departureDateTime;
 
     @Column(name = "return_datetime")
-    private String returnDateTime;
+    private LocalDateTime returnDateTime;
 
     @Column(name = "price")
     private double price;

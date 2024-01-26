@@ -1,5 +1,7 @@
 package com.cengizhanyavuz.flightsearchapi.business.service;
 
+import com.cengizhanyavuz.flightsearchapi.business.dto.AirportDto;
+
 import java.util.List;
 
 public interface IAirportService<D, E> {
@@ -11,7 +13,7 @@ public interface IAirportService<D, E> {
 
     // C R U D
     // CREATE
-    public D airportServiceCreate(D d);
+    public int airportServiceCreate(List<AirportDto> airports);
 
     // LIST
     public List<D> airportServiceList();

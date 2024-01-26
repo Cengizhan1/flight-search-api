@@ -16,5 +16,6 @@ import java.io.Serializable;
 @Builder
 public class AirportDto extends AuditingAwareBaseDto implements Serializable {
     private Long id;
+    private Long airportId;
     private String city;
 }

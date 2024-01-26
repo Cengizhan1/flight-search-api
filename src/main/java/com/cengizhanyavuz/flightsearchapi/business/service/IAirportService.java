@@ -14,14 +14,14 @@ public interface IAirportService<D, E> {
     public D airportServiceCreate(D d);
 
     // LIST
-    public List<D> airportServiceList(Long id);
+    public List<D> airportServiceList();
 
     // FIND BY
-    public D airportServiceFindById(Long id);
+    public D airportServiceFindById(Long airportId);
 
     // UPDATE
     public D airportServiceUpdate(Long id,D d);
 
     // DELETE
-    public D airportServiceDeleteById(Long id);
+    public D airportServiceDeleteById(Long airportId);
 }

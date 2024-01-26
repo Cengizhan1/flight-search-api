@@ -10,6 +10,5 @@ import java.util.Optional;
 @Repository
 public interface IAirportRepository extends CrudRepository<Airport,Long> {
 
-    Optional<Airport> findByAirportName(String taskName);
-
+    Optional<Airport> findByAirportId(Long airportId);
 }

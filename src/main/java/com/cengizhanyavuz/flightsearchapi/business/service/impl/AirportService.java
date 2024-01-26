@@ -45,7 +45,7 @@ public class AirportService implements IAirportService<AirportDto, Airport> {
     }
 
     @Override
-    public List<AirportDto> airportServiceList(Long id) {
+    public List<AirportDto> airportServiceList() {
         Iterable<Airport> airports = airportRepository.findAll();
         List<AirportDto> airportDtoList = new ArrayList<>();
         for (Airport airport : airports) {
@@ -55,11 +55,11 @@ public class AirportService implements IAirportService<AirportDto, Airport> {
     }
 
     @Override
-    public AirportDto airportServiceFindById(Long id) {
+    public AirportDto airportServiceFindById(Long airportId) {
         Airport airport = null;
-        if (id != null) {
-            airport = airportRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Unable to find the airport with ID " + id));
+        if (airportId != null) {
+            airport = airportRepository.findByAirportId(airportId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Unable to find the airport with ID " + airportId));
         } else {
             throw new CustomException("airport id is null");
         }
@@ -72,6 +72,7 @@ public class AirportService implements IAirportService<AirportDto, Airport> {
         if (airportFindDto != null) {
             Airport airport = dtoToEntity(airportFindDto);
             airport.setId(id);
+            airport.setAirportId(airportDto.getAirportId());
             airport.setCity(airportDto.getCity());
             airportRepository.save(airport);
             airportDto.setId(airport.getId());

@@ -33,15 +33,17 @@ public class AirportService implements IAirportService<AirportDto, Airport> {
     }
 
     @Override
-    public AirportDto airportServiceCreate(AirportDto airportDto) {
-        if (airportDto != null) {
-            Airport airport = dtoToEntity(airportDto);
-            airportRepository.save(airport);
-            airportDto.setId(airport.getId());
+    public int airportServiceCreate(List<AirportDto> airports) {
+        if (!airports.isEmpty()) {
+            List<Airport> airportList = new ArrayList<>();
+            for (AirportDto airportDto : airports) {
+                airportList.add(dtoToEntity(airportDto));
+            }
+           airportRepository.saveAll(airportList).iterator().next();
         } else {
             throw new NullPointerException("airportDto is null");
         }
-        return airportDto;
+        return 0;
     }
 
     @Override

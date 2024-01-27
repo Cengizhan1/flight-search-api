@@ -13,4 +13,6 @@ public interface IFlightRepository extends CrudRepository<Flight,Long> {
     Iterable<Flight> findAllByDepartureAirportIdAndArrivalAirportIdAndDepartureDateTime(
             Long departureAirportId, Long arrivalAirportId, LocalDateTime departureDateTime);
 
+    Optional<Flight> findByFlightId(Long flightId);
+
 }

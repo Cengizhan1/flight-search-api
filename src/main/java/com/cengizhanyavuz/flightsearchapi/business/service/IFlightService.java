@@ -4,6 +4,7 @@ import com.cengizhanyavuz.flightsearchapi.business.dto.FlightSearchResult;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface IFlightService<D, E> {
 
@@ -20,7 +21,7 @@ public interface IFlightService<D, E> {
 
 
     // FIND BY
-    public D flightServiceFindById(Long id);
+    public D flightServiceFindById(Long flightId);
 
     // UPDATE
     public D flightServiceUpdate(Long id,D d);
@@ -28,5 +29,5 @@ public interface IFlightService<D, E> {
     // DELETE
     public D flightServiceDeleteById(Long id);
 
-    FlightSearchResult searchFlights(Long departureAirportId, Long arrivalAirportId, LocalDateTime departureDateTime, LocalDateTime returnDateTime);
+    FlightSearchResult searchFlights(Long departureAirportId, Long arrivalAirportId, LocalDateTime departureDateTime, Optional<LocalDateTime> returnDateTime);
 }

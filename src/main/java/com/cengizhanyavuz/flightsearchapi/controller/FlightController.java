@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -35,8 +36,8 @@ public class FlightController {
     // SEARCH FLIGHTS
     @GetMapping("/search")
     public ResponseEntity<FlightSearchResult> searchFlights(@RequestParam Long departureAirportId, @RequestParam Long arrivalAirportId,
-                       @RequestParam LocalDateTime departureDateTime, @RequestParam LocalDateTime returnDateTime) {
-
+                       @RequestParam LocalDateTime departureDateTime, @RequestParam Optional<LocalDateTime> returnDateTime) {
+        System.out.println("qwdqwdqwdqwdqwdqwdqwdqwdqw");
         return ResponseEntity.status(200).body(flightService.searchFlights(departureAirportId, arrivalAirportId, departureDateTime, returnDateTime));
     }
 

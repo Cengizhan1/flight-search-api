@@ -69,11 +69,11 @@ public class FlightService implements IFlightService<FlightDTO, Flight> {
 
 
     @Override
-    public FlightDTO flightServiceFindById(Long id) {
+    public FlightDTO flightServiceFindById(Long flightId) {
         Flight flight = null;
-        if (id != null) {
-            flight = flightRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Unable to find the flight with ID " + id));
+        if (flightId != null) {
+            flight = flightRepository.findByFlightId(flightId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Unable to find the flight with ID " + flightId));
         } else {
             throw new CustomException("flight id is null");
         }
@@ -115,11 +115,11 @@ public class FlightService implements IFlightService<FlightDTO, Flight> {
 
     @Override
     public FlightSearchResult searchFlights(Long departureAirportId, Long arrivalAirportId, LocalDateTime departureDateTime,
-                                            LocalDateTime returnDateTime) {
+                                            Optional<LocalDateTime> returnDateTime) {
         List<FlightDTO> outboundFlights = searchFlights(departureAirportId, arrivalAirportId, departureDateTime);
         List<FlightDTO> returnFlights = null;
-        if (returnDateTime != null) {
-            returnFlights = searchFlights(arrivalAirportId, departureAirportId, returnDateTime);
+        if (returnDateTime.isPresent()) {
+            returnFlights = searchFlights(arrivalAirportId, departureAirportId, returnDateTime.get());
         }
         return new FlightSearchResult(outboundFlights, returnFlights);
     }

@@ -13,9 +13,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static com.cengizhanyavuz.todolist.data.entity.Role.ADMIN;
-import static com.cengizhanyavuz.todolist.data.entity.Role.MANAGER;
-import static com.cengizhanyavuz.todolist.enums.Permission.*;
+import static com.cengizhanyavuz.flightsearchapi.data.entity.Role.ADMIN;
+import static com.cengizhanyavuz.flightsearchapi.data.entity.Role.MANAGER;
+import static com.cengizhanyavuz.flightsearchapi.enums.Permission.*;
 import static org.springframework.http.HttpMethod.*;
 
 @Configuration

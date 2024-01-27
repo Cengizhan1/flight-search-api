@@ -1,6 +1,6 @@
 package com.cengizhanyavuz.flightsearchapi.config;
 
-import com.cengizhanyavuz.todolist.data.repository.TokenRepository;
+import com.cengizhanyavuz.flightsearchapi.data.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.cengizhanyavuz.flightsearchapi.config;
 
-import com.cengizhanyavuz.todolist.data.repository.UserRepository;
+import com.cengizhanyavuz.flightsearchapi.data.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

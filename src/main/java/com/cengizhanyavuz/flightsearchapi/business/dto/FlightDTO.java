@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class FlightDTO extends AuditingAwareBaseDto implements Serializable {
     private Long id;
+    private Long flightId;
     private Long departureAirportId;
     private Long arrivalAirportId;
     private LocalDateTime departureDateTime;

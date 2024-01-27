@@ -14,10 +14,10 @@ public interface IFlightService<D, E> {
 
     // C R U D
     // CREATE
-    public D flightServiceCreate(D d);
+    public void flightServiceCreateOrUpdate(List<D> d);
 
-    // LIST
-    public List<D> flightServiceList(Long id);
+    public List<D> flightServiceList();
+
 
     // FIND BY
     public D flightServiceFindById(Long id);

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -38,26 +39,34 @@ public class FlightService implements IFlightService<FlightDTO, Flight> {
     }
 
     @Override
-    public FlightDTO flightServiceCreate(FlightDTO flightDTO) {
-        if (flightDTO != null) {
-            Flight flight = dtoToEntity(flightDTO);
-            flightRepository.save(flight);
-            flightDTO.setId(flight.getId());
+    public void flightServiceCreateOrUpdate(List<FlightDTO> flights) {
+        if (!flights.isEmpty()) {
+            List<Flight> existingFlights = (List<Flight>) flightRepository.findAll();
+            List<Flight> flightList = new ArrayList<>();
+            for (FlightDTO flightDto : flights) {
+                Flight newFlight = dtoToEntity(flightDto);
+                Optional<Flight> existingFlight = findFlightById(existingFlights, flightDto.getFlightId());
+                if (existingFlight.isPresent() && newFlight.getUpdatedDate().before(existingFlight.get().getUpdatedDate())) {
+                    continue;
+                }
+                existingFlight.ifPresent(value -> newFlight.setId(value.getId()));
+                flightList.add(newFlight);
+            }
+            flightRepository.saveAll(flightList);
         } else {
             throw new NullPointerException("flightDTO is null");
         }
-        return flightDTO;
     }
 
-    @Override
-    public List<FlightDTO> flightServiceList(Long id) {
-        Iterable<Flight> flights = flightRepository.findAll();
-        List<FlightDTO> flightDtoList = new ArrayList<>();
+    public List<FlightDTO> flightServiceList() {
+        List<Flight> flights = (List<Flight>) flightRepository.findAll();
+        List<FlightDTO> flightDTOList = new ArrayList<>();
         for (Flight flight : flights) {
-            flightDtoList.add(entityToDto(flight));
+            flightDTOList.add(entityToDto(flight));
         }
-        return flightDtoList;
+        return flightDTOList;
     }
+
 
     @Override
     public FlightDTO flightServiceFindById(Long id) {
@@ -131,5 +140,11 @@ public class FlightService implements IFlightService<FlightDTO, Flight> {
         } else {
             throw new CustomException("airport id is null");
         }
+    }
+
+    private Optional<Flight> findFlightById(List<Flight> flights, Long flightId) {
+        return flights.stream()
+                .filter(flight -> flight.getFlightId().equals(flightId))
+                .findFirst();
     }
 }

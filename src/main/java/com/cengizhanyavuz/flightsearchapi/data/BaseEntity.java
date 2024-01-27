@@ -13,7 +13,6 @@ import java.util.Date;
 @Getter
 @Setter
 @MappedSuperclass
-@JsonIgnoreProperties(value = {"created_date,updated_date"},allowGetters = true)
 @EntityListeners(AuditingEntityListener.class)
 abstract public class BaseEntity extends AuditingAwareBaseEntity {
 

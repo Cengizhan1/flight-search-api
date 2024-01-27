@@ -17,10 +17,7 @@ import java.util.Date;
 
 // LOMBOK
 @Getter @Setter
-
-// SUPER CLASS
 @MappedSuperclass
-@JsonIgnoreProperties(value = {"created_date,updated_date"},allowGetters = true)
 @EntityListeners(AuditingEntityListener.class)
 abstract public class AuditingAwareBaseEntity  implements Serializable {
 

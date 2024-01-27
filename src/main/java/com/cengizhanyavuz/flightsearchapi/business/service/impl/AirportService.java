@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -33,25 +34,30 @@ public class AirportService implements IAirportService<AirportDto, Airport> {
     }
 
     @Override
-    public int airportServiceCreate(List<AirportDto> airports) {
+    public void airportServiceCreateOrUpdate(List<AirportDto> airports) {
         if (!airports.isEmpty()) {
+            List<Airport> existingAirports = (List<Airport>) airportRepository.findAll();
             List<Airport> airportList = new ArrayList<>();
             for (AirportDto airportDto : airports) {
+                Airport newAirport = dtoToEntity(airportDto);
+                Optional<Airport> existingAirport = findAirportById(existingAirports, airportDto.getAirportId());
+                if (existingAirport.isPresent() && newAirport.getUpdatedDate().before(existingAirport.get().getUpdatedDate())) {
+                    continue;
+                }
                 airportList.add(dtoToEntity(airportDto));
             }
-           airportRepository.saveAll(airportList).iterator().next();
+           airportRepository.saveAll(airportList);
         } else {
             throw new NullPointerException("airportDto is null");
         }
-        return 0;
     }
-
     @Override
     public List<AirportDto> airportServiceList() {
-        Iterable<Airport> airports = airportRepository.findAll();
+        List<Airport> airports = (List<Airport>) airportRepository.findAll();
         List<AirportDto> airportDtoList = new ArrayList<>();
         for (Airport airport : airports) {
-            airportDtoList.add(entityToDto(airport));
+            AirportDto airportDto = entityToDto(airport);
+            airportDtoList.add(airportDto);
         }
         return airportDtoList;
     }
@@ -94,5 +100,12 @@ public class AirportService implements IAirportService<AirportDto, Airport> {
             throw new NullPointerException("Unable to find the airport with ID " + id);
         }
         return airportFindDto;
+    }
+
+    private Optional<Airport> findAirportById(List<Airport> airports, Long airportId) {
+        return airports
+                .stream()
+                .filter(airport -> airport.getAirportId().equals(airportId))
+                .findFirst();
     }
 }

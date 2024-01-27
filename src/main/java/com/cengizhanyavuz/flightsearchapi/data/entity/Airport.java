@@ -16,7 +16,8 @@ import lombok.extern.log4j.Log4j2;
 @Table(name = "airports")
 public class Airport extends BaseEntity {
 
-    @Column(name = "airport_id")
+
+    @Column(name = "airport_id", unique = true)
     private Long airportId;
     @Column(name = "city")
     private String city;

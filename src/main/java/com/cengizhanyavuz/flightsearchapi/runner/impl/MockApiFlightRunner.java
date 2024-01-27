@@ -4,7 +4,9 @@ import com.cengizhanyavuz.flightsearchapi.business.dto.AirportDto;
 import com.cengizhanyavuz.flightsearchapi.business.dto.FlightDTO;
 import com.cengizhanyavuz.flightsearchapi.business.dto.FlightSearchResult;
 import com.cengizhanyavuz.flightsearchapi.business.service.IAirportService;
+import com.cengizhanyavuz.flightsearchapi.business.service.IFlightService;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Airport;
+import com.cengizhanyavuz.flightsearchapi.data.entity.Flight;
 import com.cengizhanyavuz.flightsearchapi.job.AirportResponse;
 import com.cengizhanyavuz.flightsearchapi.job.FlightResponse;
 import com.cengizhanyavuz.flightsearchapi.runner.IFlightRunner;
@@ -28,19 +30,21 @@ public class MockApiFlightRunner implements IFlightRunner {
 
     private static final Logger LOG = LoggerFactory.getLogger(MockApiFlightRunner.class);
     private final IAirportService<AirportDto, Airport> airportService;
+    private final IFlightService<FlightDTO, Flight> flightService;
 
     @Value("${flight-api.url}")
     private String API_URL;
     @Override
     public void start() throws Exception {
         System.out.println("MockApiFlightRunner started");
-        getFlights();
         getAirports();
+        getFlights();
     }
     public void getFlights() {
         try {
             FlightResponse flightResponse = fetchData(API_URL, FlightResponse.class);
             List<FlightDTO> flights = flightResponse.getFlights();
+            flightService.flightServiceCreateOrUpdate(flights);
         } catch (RestClientException ex) {
             LOG.error("Error occurred while fetching flights: {}", ex.getMessage());
             ex.printStackTrace();
@@ -50,7 +54,7 @@ public class MockApiFlightRunner implements IFlightRunner {
         try {
             AirportResponse airportResponse = fetchData(API_URL, AirportResponse.class);
             List<AirportDto> airports = airportResponse.getAirports();
-            airportService.airportServiceCreate(airports);
+            airportService.airportServiceCreateOrUpdate(airports);
         } catch (RestClientException ex) {
             LOG.error("Error occurred while fetching airports: {}", ex.getMessage());
             ex.printStackTrace();
@@ -66,3 +70,5 @@ public class MockApiFlightRunner implements IFlightRunner {
     }
 
 }
+
+

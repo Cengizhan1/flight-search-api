@@ -19,11 +19,7 @@ public class FlightController {
 
     private final IFlightService<FlightDTO, Flight> flightService;
 
-    // CREATE
-    @PostMapping("/flight")
-    public ResponseEntity<FlightDTO> create(@RequestBody FlightDTO flightDTO) {
-        return ResponseEntity.status(200).body(flightService.flightServiceCreate(flightDTO));
-    }
+
     // LIST
 
     // FIND BY ID

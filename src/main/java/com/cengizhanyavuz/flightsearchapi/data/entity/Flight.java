@@ -16,12 +16,15 @@ import java.time.LocalDateTime;
 @Table(name = "flights")
 public class Flight  extends BaseEntity {
 
+    @Column(name = "flight_id")
+    private Long flightId;
+
     @ManyToOne
-    @JoinColumn(name = "departure_airport_id")
+    @JoinColumn(name = "departure_airport_id",referencedColumnName = "airport_id")
     private Airport departureAirport;
 
     @ManyToOne
-    @JoinColumn(name = "arrival_airport_id")
+    @JoinColumn(name = "arrival_airport_id",referencedColumnName = "airport_id")
     private Airport arrivalAirport;
 
     @Column(name = "departure_datetime")

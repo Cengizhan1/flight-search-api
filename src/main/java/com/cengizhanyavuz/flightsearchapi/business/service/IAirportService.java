@@ -13,7 +13,7 @@ public interface IAirportService<D, E> {
 
     // C R U D
     // CREATE
-    public int airportServiceCreate(List<AirportDto> airports);
+    public void airportServiceCreateOrUpdate(List<D> d);
 
     // LIST
     public List<D> airportServiceList();

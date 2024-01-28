@@ -18,7 +18,6 @@ public class OpenApiConfigBean {
                                 .description("Flight Search API swagger documentation")
                                 .version("v1")
                                 .contact(new Contact().email("cengizhany.cy@gmail.com").url("url"))
-                                .title("Flight Search API")
-                                .license(new License().url("http://www.").name("name")));
+                                .title("Flight Search API"));
     }
 }

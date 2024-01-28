@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FlightApiJob {
     private final IFlightRunner flightRunner;
-    @Scheduled(fixedRate = 200000L)
+    @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
     public void start() throws Exception {
         flightRunner.start();
     }

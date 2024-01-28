@@ -1,4 +1,4 @@
-# JAVA TODO LIST
+# FLIGHT SEARCH API
 
 This project is developed using Java Spring Boot framework with a layered architecture. The project utilizes Java's Hibernate, Security, and Spring Data frameworks. Additionally, JWT (JSON Web Token) services are used for authentication and authorization processes. On the front-end side, the JavaScript Axios library is employed for API communication.
 

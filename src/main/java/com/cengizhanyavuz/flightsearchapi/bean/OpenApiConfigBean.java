@@ -15,11 +15,10 @@ public class OpenApiConfigBean {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .description("task tanımlama44")
+                                .description("Flight Search API swagger documentation")
                                 .version("v1")
                                 .contact(new Contact().email("cengizhany.cy@gmail.com").url("url"))
-                                .title("title44")
-                                .termsOfService("Software INC")
+                                .title("Flight Search API")
                                 .license(new License().url("http://www.").name("name")));
     }
 }

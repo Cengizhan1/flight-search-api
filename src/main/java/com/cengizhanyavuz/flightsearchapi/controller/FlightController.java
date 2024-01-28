@@ -4,6 +4,8 @@ import com.cengizhanyavuz.flightsearchapi.business.dto.FlightDTO;
 import com.cengizhanyavuz.flightsearchapi.business.dto.FlightSearchResult;
 import com.cengizhanyavuz.flightsearchapi.business.service.IFlightService;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Flight;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -18,27 +20,34 @@ import java.util.Optional;
 @Log4j2
 @RestController
 @RequestMapping("/flight/api/v1")
+@Api(value = "Flight API", tags = {"Flight"})
 public class FlightController {
 
     private final IFlightService<FlightDTO, Flight> flightService;
 
     // CREATE
     @GetMapping(value = "/list")
+    @ApiOperation(value = "Get the list of flights", response = FlightDTO.class, responseContainer = "List")
     public ResponseEntity<List<FlightDTO>> flightServiceList() {
         return ResponseEntity.status(HttpStatus.OK).body(flightService.flightServiceList());
     }
 
     // FIND BY ID
     @GetMapping("/flight/{id}")
+    @ApiOperation(value = "Get a flight by ID", response = FlightDTO.class)
     public ResponseEntity<FlightDTO> findById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.status(200).body(flightService.flightServiceFindById(id));
     }
+
     // SEARCH FLIGHTS
     @GetMapping("/search")
-    public ResponseEntity<FlightSearchResult> searchFlights(@RequestParam Long departureAirportId, @RequestParam Long arrivalAirportId,
-                       @RequestParam LocalDateTime departureDateTime, @RequestParam Optional<LocalDateTime> returnDateTime) {
-        System.out.println("qwdqwdqwdqwdqwdqwdqwdqwdqw");
+    @ApiOperation(value = "Search flights", response = FlightSearchResult.class)
+    public ResponseEntity<FlightSearchResult> searchFlights(
+            @RequestParam Long departureAirportId,
+            @RequestParam Long arrivalAirportId,
+            @RequestParam LocalDateTime departureDateTime,
+            @RequestParam Optional<LocalDateTime> returnDateTime
+    ) {
         return ResponseEntity.status(200).body(flightService.searchFlights(departureAirportId, arrivalAirportId, departureDateTime, returnDateTime));
     }
-
 }

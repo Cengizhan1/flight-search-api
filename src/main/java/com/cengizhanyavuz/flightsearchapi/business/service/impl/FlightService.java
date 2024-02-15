@@ -73,7 +73,6 @@ public class FlightService implements IFlightService<FlightDTO, Flight> {
     }
 
     private Flight save(FlightDetail flightDetail) {
-        System.out.println("qwdqwdqw");
         Airport departureAirport = airportRepository.findByAirportId(flightDetail.departureAirportId()).orElseThrow();
         Airport arrivalAirport = airportRepository.findByAirportId(flightDetail.arrivalAirportId()).orElseThrow();
         Flight flight = flightRepository.findByFlightId(flightDetail.flightId()).orElseGet(Flight::new);

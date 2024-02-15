@@ -15,7 +15,7 @@ The main objective of this project is to provide a platform for users to manage 
 - **JWT (JSON Web Token)**: Used for secure token-based user authentication.
 - **Swagger**: Provides a convenient way to document and test APIs.
 - **Postman**: Used for API testing and development.
-- **MySQL**: The relational database used to store project and task information.
+- **H2 In Memory Database**:Database
 - **ModelMapper**: Simplifies object mapping between DTOs (Data Transfer Objects) and entities.
 - **RestTemplate**: Facilitates communication with external APIs.
 - **Resilience4j**: Used to increase application resilience.
@@ -35,39 +35,42 @@ One distinctive feature of this project is the automatic update of flight data. 
 ## Requirements
 ```
 - Java 17 or higher
-- Database (default is MySQL)
+- Database (H2 in memory Database)
 ```
 
 
-## Installation
-1. Clone the project:
+## Prerequisites
 
+---
+- Maven or Docker
+---
+
+## Docker Run
+The application can be built and run by the `Docker` engine. The `Dockerfile` has multistage build, so you do not need to build and run separately.
+
+Please follow the below directions in order to build and run the application with Docker Compose;
+
+```sh
+$ cd flight-search-api
+$ docker-compose up -d
 ```
-git clone https://github.com/Cengizhan1/flight-search-api
-``` 
 
-2. Navigate to the project directory:
+Docker compose creates 3 replicas (instances)
 
+### Prometheus
+#### You can reach prometheus page via `http://{HOST}:9090`
+### Grafana
+#### You can reach grafana page via `http://{HOST}:3000` - GF_SECURITY_ADMIN_PASSWORD=admin
+
+---
+## Maven Run
+To build and run the application with `Maven`, please follow the directions below;
+
+```sh
+$ cd flight-search-api
+$ mvn clean install
+$ mvn spring-boot:run
 ```
-cd flight-search-api
-``` 
+You can reach the swagger-ui via  `http://{HOST}:8080/swagger-ui.html`
 
-## Project Setup
-1- Database Setup: \
-MySQL is used as the default database. To configure your database to MySQL, edit the application.properties file. \
-2- Start the Project: \
-To start the Spring Boot application, run the following command:
-```
-./mvnw spring-boot:run
-``` 
-
-## API Documentation
-You can find the API documentation here.
-It provides detailed information on available routes and their usage.
-
-postman : https://documenter.getpostman.com/view/16991416/2s9Yyqj2yH \
-swagger : http://localhost:8080/swagger-ui/index.html
-
-## Contributers
-Cengizhan Yavuz \
-Email : cengizhany.cy@gmail.com
+---

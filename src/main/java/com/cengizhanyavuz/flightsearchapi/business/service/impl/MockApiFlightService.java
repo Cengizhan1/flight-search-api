@@ -42,6 +42,17 @@ public class MockApiFlightService implements IFlightRunner {
     public void start() throws Exception {
         System.out.println("MockApiFlightRunner started");
         ApiResponse apiResponse = fetchData(API_URL);
+        if (apiResponse != null && apiResponse.airports() != null) {
+            if (apiResponse.airports().create() != null) {
+                airportService.airportServiceCreate(apiResponse.airports().create());
+            }
+            if (apiResponse.airports().update() != null) {
+                airportService.airportServiceUpdate(apiResponse.airports().update());
+            }
+            if (apiResponse.airports().delete() != null) {
+                airportService.airportServiceDelete(apiResponse.airports().delete());
+            }
+        }
         if (apiResponse != null && apiResponse.flights() != null) {
             if (apiResponse.flights().create() != null) {
                 flightService.flightServiceCreate(apiResponse.flights().create());

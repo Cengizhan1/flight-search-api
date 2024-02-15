@@ -2,13 +2,12 @@ package com.cengizhanyavuz.flightsearchapi.runner.impl;
 
 import com.cengizhanyavuz.flightsearchapi.business.dto.AirportDto;
 import com.cengizhanyavuz.flightsearchapi.business.dto.FlightDTO;
-import com.cengizhanyavuz.flightsearchapi.business.dto.FlightSearchResult;
 import com.cengizhanyavuz.flightsearchapi.business.service.IAirportService;
 import com.cengizhanyavuz.flightsearchapi.business.service.IFlightService;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Airport;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Flight;
-import com.cengizhanyavuz.flightsearchapi.job.AirportResponse;
-import com.cengizhanyavuz.flightsearchapi.job.FlightResponse;
+import com.cengizhanyavuz.flightsearchapi.business.dto.api.AirportResponse;
+import com.cengizhanyavuz.flightsearchapi.business.dto.api.FlightResponse;
 import com.cengizhanyavuz.flightsearchapi.runner.IFlightRunner;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Component

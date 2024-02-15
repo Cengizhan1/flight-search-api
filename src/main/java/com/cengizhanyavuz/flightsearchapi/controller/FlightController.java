@@ -4,6 +4,7 @@ import com.cengizhanyavuz.flightsearchapi.business.dto.FlightDTO;
 import com.cengizhanyavuz.flightsearchapi.business.dto.FlightSearchResult;
 import com.cengizhanyavuz.flightsearchapi.business.service.IFlightService;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Flight;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class FlightController {
     private final IFlightService<FlightDTO, Flight> flightService;
 
     // CREATE
+    @RateLimiter(name = "basic")
     @GetMapping(value = "/list")
     @ApiOperation(value = "Get the list of flights", response = FlightDTO.class, responseContainer = "List")
     public ResponseEntity<List<FlightDTO>> flightServiceList() {
@@ -33,6 +35,7 @@ public class FlightController {
     }
 
     // FIND BY ID
+    @RateLimiter(name = "basic")
     @GetMapping("/flight/{id}")
     @ApiOperation(value = "Get a flight by ID", response = FlightDTO.class)
     public ResponseEntity<FlightDTO> findById(@PathVariable(name = "id") Long id) {
@@ -40,6 +43,7 @@ public class FlightController {
     }
 
     // SEARCH FLIGHTS
+    @RateLimiter(name = "basic")
     @GetMapping("/search")
     @ApiOperation(value = "Search flights", response = FlightSearchResult.class)
     public ResponseEntity<FlightSearchResult> searchFlights(

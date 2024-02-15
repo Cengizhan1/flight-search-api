@@ -3,6 +3,7 @@ package com.cengizhanyavuz.flightsearchapi.business.service.impl;
 import com.cengizhanyavuz.flightsearchapi.bean.ModelMapperBean;
 import com.cengizhanyavuz.flightsearchapi.business.dto.FlightDTO;
 import com.cengizhanyavuz.flightsearchapi.business.dto.FlightSearchResult;
+import com.cengizhanyavuz.flightsearchapi.business.dto.api.flight.FlightDetail;
 import com.cengizhanyavuz.flightsearchapi.business.service.IFlightService;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Airport;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Flight;
@@ -15,6 +16,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,23 +41,49 @@ public class FlightService implements IFlightService<FlightDTO, Flight> {
     }
 
     @Override
-    public void flightServiceCreateOrUpdate(List<FlightDTO> flights) {
-        if (!flights.isEmpty()) {
-            List<Flight> existingFlights = (List<Flight>) flightRepository.findAll();
-            List<Flight> flightList = new ArrayList<>();
-            for (FlightDTO flightDto : flights) {
-                Flight newFlight = dtoToEntity(flightDto);
-                Optional<Flight> existingFlight = findFlightById(existingFlights, flightDto.getFlightId());
-                if (existingFlight.isPresent() && newFlight.getUpdatedDate().before(existingFlight.get().getUpdatedDate())) {
-                    continue;
-                }
-                existingFlight.ifPresent(value -> newFlight.setId(value.getId()));
-                flightList.add(newFlight);
+    public void flightServiceCreate(FlightDetail[] flightDetails) {
+        List<Flight> flightList = new ArrayList<>();
+        for (FlightDetail flightDetail : flightDetails) {
+            if (flightRepository.findByFlightId(flightDetail.flightId()).isEmpty()) {
+                Flight flight = save(flightDetail);
+                flightList.add(flight);
             }
-            flightRepository.saveAll(flightList);
-        } else {
-            throw new NullPointerException("flightDTO is null");
         }
+        if (flightList.size() > 0) {
+            flightRepository.saveAll(flightList);
+        }
+    }
+
+    @Override
+    public void flightServiceUpdate(FlightDetail[] flightDetails) {
+        for (FlightDetail flightDetail : flightDetails) {
+            FlightDTO flightDTO = flightServiceFindById(flightDetail.flightId());
+            if (flightDTO != null) {
+                Flight flight = save(flightDetail);
+                flightRepository.save(flight);
+            }
+        }
+    }
+    @Override
+    public void flightServiceDelete(FlightDetail[] flightDetails) {
+        for (FlightDetail flightDetail : flightDetails) {
+            Optional<Flight> flight = flightRepository.findByFlightId(flightDetail.flightId());
+            flight.ifPresent(flightRepository::delete);
+        }
+    }
+
+    private Flight save(FlightDetail flightDetail) {
+        System.out.println("qwdqwdqw");
+        Airport departureAirport = airportRepository.findByAirportId(flightDetail.departureAirportId()).orElseThrow();
+        Airport arrivalAirport = airportRepository.findByAirportId(flightDetail.arrivalAirportId()).orElseThrow();
+        Flight flight = flightRepository.findByFlightId(flightDetail.flightId()).orElseGet(Flight::new);
+        flight.setFlightId(flightDetail.flightId());
+        flight.setDepartureAirport(departureAirport);
+        flight.setArrivalAirport(arrivalAirport);
+        flight.setDepartureDateTime(LocalDateTime.parse(flightDetail.departureDateTime()));
+        flight.setReturnDateTime(LocalDateTime.parse(flightDetail.returnDateTime()));
+        flight.setPrice(flightDetail.price());
+        return flight;
     }
 
     public List<FlightDTO> flightServiceList() {
@@ -123,6 +151,7 @@ public class FlightService implements IFlightService<FlightDTO, Flight> {
         }
         return new FlightSearchResult(outboundFlights, returnFlights);
     }
+
     private List<FlightDTO> searchFlights(Long departureCity, Long arrivalCity, LocalDateTime departureDate) {
         Iterable<Flight> flights = flightRepository
                 .findAllByDepartureAirportIdAndArrivalAirportIdAndDepartureDateTime(departureCity, arrivalCity, departureDate);

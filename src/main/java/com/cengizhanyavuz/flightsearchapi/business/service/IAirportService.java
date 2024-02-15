@@ -1,6 +1,6 @@
 package com.cengizhanyavuz.flightsearchapi.business.service;
 
-import com.cengizhanyavuz.flightsearchapi.business.dto.AirportDto;
+import com.cengizhanyavuz.flightsearchapi.business.dto.api.airport.AirportDetail;
 
 import java.util.List;
 
@@ -13,17 +13,15 @@ public interface IAirportService<D, E> {
 
     // C R U D
     // CREATE
-    public void airportServiceCreateOrUpdate(List<D> d);
+    public void airportServiceCreate(AirportDetail[] airportDetail);
+
+    public void airportServiceUpdate(AirportDetail[] airportDetail);
+
+    public void airportServiceDelete(AirportDetail[] airportDetail);
 
     // LIST
     public List<D> airportServiceList();
 
     // FIND BY
     public D airportServiceFindById(Long airportId);
-
-    // UPDATE
-    public D airportServiceUpdate(Long id,D d);
-
-    // DELETE
-    public D airportServiceDeleteById(Long airportId);
 }

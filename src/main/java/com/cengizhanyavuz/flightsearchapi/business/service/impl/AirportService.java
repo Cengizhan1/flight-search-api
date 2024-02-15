@@ -1,7 +1,8 @@
 package com.cengizhanyavuz.flightsearchapi.business.service.impl;
 
 import com.cengizhanyavuz.flightsearchapi.bean.ModelMapperBean;
-import com.cengizhanyavuz.flightsearchapi.business.dto.AirportDto;
+import com.cengizhanyavuz.flightsearchapi.business.dto.AirportDTO;
+import com.cengizhanyavuz.flightsearchapi.business.dto.api.airport.AirportDetail;
 import com.cengizhanyavuz.flightsearchapi.business.service.IAirportService;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Airport;
 import com.cengizhanyavuz.flightsearchapi.data.repository.IAirportRepository;
@@ -18,52 +19,75 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Log4j2
 @Service
-public class AirportService implements IAirportService<AirportDto, Airport> {
+public class AirportService implements IAirportService<AirportDTO, Airport> {
 
     private final ModelMapperBean modelMapperBean;
     private final IAirportRepository airportRepository;
 
     @Override
-    public AirportDto entityToDto(Airport airport) {
-        return modelMapperBean.modelMapperMethod().map(airport, AirportDto.class);
+    public AirportDTO entityToDto(Airport airport) {
+        return modelMapperBean.modelMapperMethod().map(airport, AirportDTO.class);
     }
 
     @Override
-    public Airport dtoToEntity(AirportDto airportDto) {
+    public Airport dtoToEntity(AirportDTO airportDto) {
         return modelMapperBean.modelMapperMethod().map(airportDto, Airport.class);
     }
 
     @Override
-    public void airportServiceCreateOrUpdate(List<AirportDto> airports) {
-        if (!airports.isEmpty()) {
-            List<Airport> existingAirports = (List<Airport>) airportRepository.findAll();
-            List<Airport> airportList = new ArrayList<>();
-            for (AirportDto airportDto : airports) {
-                Airport newAirport = dtoToEntity(airportDto);
-                Optional<Airport> existingAirport = findAirportById(existingAirports, airportDto.getAirportId());
-                if (existingAirport.isPresent() && newAirport.getUpdatedDate().before(existingAirport.get().getUpdatedDate())) {
-                    continue;
-                }
-                airportList.add(dtoToEntity(airportDto));
-            }
-           airportRepository.saveAll(airportList);
-        } else {
-            throw new NullPointerException("airportDto is null");
-        }
-    }
-    @Override
-    public List<AirportDto> airportServiceList() {
+    public List<AirportDTO> airportServiceList() {
         List<Airport> airports = (List<Airport>) airportRepository.findAll();
-        List<AirportDto> airportDtoList = new ArrayList<>();
+        List<AirportDTO> airportDtoList = new ArrayList<>();
         for (Airport airport : airports) {
-            AirportDto airportDto = entityToDto(airport);
+            AirportDTO airportDto = entityToDto(airport);
             airportDtoList.add(airportDto);
         }
         return airportDtoList;
     }
 
     @Override
-    public AirportDto airportServiceFindById(Long airportId) {
+    public void airportServiceCreate(AirportDetail[] airportDetail) {
+        List<Airport> airportList = new ArrayList<>();
+        for (AirportDetail airportDetail1 : airportDetail) {
+            if (airportRepository.findByAirportId(airportDetail1.airportId()).isEmpty()) {
+                Airport airport = save(airportDetail1);
+                airportList.add(airport);
+            }
+        }
+        if (airportList.size() > 0) {
+            airportRepository.saveAll(airportList);
+        }
+    }
+
+    @Override
+    public void airportServiceUpdate(AirportDetail[] airportDetail) {
+        for (AirportDetail airportDetail1 : airportDetail) {
+            AirportDTO airportDTO = airportServiceFindById(airportDetail1.airportId());
+            if (airportDTO != null) {
+                Airport airport = save(airportDetail1);
+                airportRepository.save(airport);
+            }
+        }
+    }
+
+    @Override
+    public void airportServiceDelete(AirportDetail[] airportDetail) {
+        for (AirportDetail airportDetail1 : airportDetail) {
+            Optional<Airport> airport = airportRepository.findByAirportId(airportDetail1.airportId());
+            airport.ifPresent(airportRepository::delete);
+        }
+    }
+
+    private Airport save(AirportDetail airportDetail1) {
+        System.out.println("wqdqwd");
+        Airport airport = airportRepository.findByAirportId(airportDetail1.airportId()).orElseGet(Airport::new);
+        airport.setAirportId(airportDetail1.airportId());
+        airport.setCity(airportDetail1.city());
+        return airport;
+    }
+
+    @Override
+    public AirportDTO airportServiceFindById(Long airportId) {
         Airport airport = null;
         if (airportId != null) {
             airport = airportRepository.findByAirportId(airportId)
@@ -74,33 +98,6 @@ public class AirportService implements IAirportService<AirportDto, Airport> {
         return entityToDto(airport);
     }
 
-    @Override
-    public AirportDto airportServiceUpdate(Long id, AirportDto airportDto) {
-        AirportDto airportFindDto = airportServiceFindById(id);
-        if (airportFindDto != null) {
-            Airport airport = dtoToEntity(airportFindDto);
-            airport.setId(id);
-            airport.setAirportId(airportDto.getAirportId());
-            airport.setCity(airportDto.getCity());
-            airportRepository.save(airport);
-            airportDto.setId(airport.getId());
-        }else {
-            throw new NullPointerException("Unable to find the airport with ID " + id);
-        }
-        return airportDto;
-    }
-
-    @Override
-    public AirportDto airportServiceDeleteById(Long id) {
-        AirportDto airportFindDto = airportServiceFindById(id);
-        if (airportFindDto != null) {
-            Airport airport = dtoToEntity(airportFindDto);
-            airportRepository.delete(airport);
-        }else {
-            throw new NullPointerException("Unable to find the airport with ID " + id);
-        }
-        return airportFindDto;
-    }
 
     private Optional<Airport> findAirportById(List<Airport> airports, Long airportId) {
         return airports

@@ -1,6 +1,7 @@
 package com.cengizhanyavuz.flightsearchapi.business.service;
 
 import com.cengizhanyavuz.flightsearchapi.business.dto.FlightSearchResult;
+import com.cengizhanyavuz.flightsearchapi.business.dto.api.flight.FlightDetail;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +16,9 @@ public interface IFlightService<D, E> {
 
     // C R U D
     // CREATE
-    public void flightServiceCreateOrUpdate(List<D> d);
+    public void flightServiceCreate(FlightDetail[] flightDetails);
+    public void flightServiceUpdate(FlightDetail[] flightDetails);
+    public void flightServiceDelete(FlightDetail[] flightDetails);
 
     public List<D> flightServiceList();
 

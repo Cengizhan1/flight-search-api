@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Log4j2
 @Builder
-public class AirportDto extends AuditingAwareBaseDto implements Serializable {
+public class AirportDTO extends AuditingAwareBaseDto implements Serializable {
     private Long id;
     private Long airportId;
     private String city;

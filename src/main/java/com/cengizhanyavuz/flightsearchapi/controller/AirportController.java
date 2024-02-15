@@ -1,8 +1,9 @@
 package com.cengizhanyavuz.flightsearchapi.controller;
 
-import com.cengizhanyavuz.flightsearchapi.business.dto.AirportDto;
+import com.cengizhanyavuz.flightsearchapi.business.dto.AirportDTO;
 import com.cengizhanyavuz.flightsearchapi.business.service.IAirportService;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Airport;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -26,21 +27,22 @@ import java.util.List;
 @Api(value = "Airport Controller", tags = "Airport API")
 public class AirportController {
 
-    private final IAirportService<AirportDto, Airport> airportService;
+    private final IAirportService<AirportDTO, Airport> airportService;
 
+    @RateLimiter(name = "basic")
     @GetMapping("/list")
     @ApiOperation(value = "Get the list of airports", notes = "Retrieves a list of all airports")
-    public ResponseEntity<List<AirportDto>> airportServiceList() {
+    public ResponseEntity<List<AirportDTO>> airportServiceList() {
         return ResponseEntity.status(HttpStatus.OK).body(airportService.airportServiceList());
     }
-
+    @RateLimiter(name = "basic")
     @GetMapping("/airport/{id}")
     @ApiOperation(value = "Get airport by ID", notes = "Retrieves an airport by its ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved airport"),
             @ApiResponse(code = 404, message = "Airport not found")
     })
-    public ResponseEntity<AirportDto> findById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<AirportDTO> findById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.status(200).body(airportService.airportServiceFindById(id));
     }
 }

@@ -8,17 +8,26 @@ The main objective of this project is to provide a platform for users to manage 
 
 ## Technologies Used
 
-* **Java Spring Boot**: Provides the foundation for the project, offering a robust and scalable framework.
-* **Hibernate**: Used for object-relational mapping and database interactions.
-* **Spring Data**: Simplifies database access and management.
-* **Spring Security**: Ensures secure authentication and authorization processes.
-* **JWT (JSON Web Token)**: Used for secure token-based user authentication.
-* **Swagger**: Provides a convenient way to document and test APIs.
-* **Postman**: Used for API testing and development.
-* **MySQL**: The relational database used to store project and task information.
-* **ModelMapper**: Simplifies object mapping between DTOs (Data Transfer Objects) and entities.
-* **RestTemplate**: Facilitates communication with external APIs.
-
+- **Java Spring Boot**: Provides the foundation for the project, offering a robust and scalable framework.
+- **Hibernate**: Used for object-relational mapping and database interactions.
+- **Spring Data JPA**: Simplifies database access and management.
+- **Spring Security**: Ensures secure authentication and authorization processes.
+- **JWT (JSON Web Token)**: Used for secure token-based user authentication.
+- **Swagger**: Provides a convenient way to document and test APIs.
+- **Postman**: Used for API testing and development.
+- **MySQL**: The relational database used to store project and task information.
+- **ModelMapper**: Simplifies object mapping between DTOs (Data Transfer Objects) and entities.
+- **RestTemplate**: Facilitates communication with external APIs.
+- **Resilience4j**: Used to increase application resilience.
+- **Open API Documentation**: Used to document and share APIs.
+- **Spring Data JPA**: Used for database access and management.
+- **Maven**: Used for project management and dependency management.
+- **Junit5**: Used to write unit tests.
+- **Integration Tests**: Used to write and execute integration tests.
+- **Docker**: Used to containerize and deploy the application.
+- **Docker Compose**: Used to define and run multi-container applications.
+- **Prometheus**: Used for system monitoring and alerts.
+- **Grafana**: Used to visualize and monitor data.
 ## Automatic Flight Data Update
 
 One distinctive feature of this project is the automatic update of flight data. Every 24 hours, the system sends requests to an external API to fetch information about airports and flight details. This data is then stored in the project's database, allowing users to search for and access relevant flight information.

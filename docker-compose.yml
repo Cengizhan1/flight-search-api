@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  app:
+    image: 'flight-search-api:latest'
+    build:
+      context: .
+    ports:
+      - "8080"
+    deploy:
+      mode: replicated
+      replicas: 3
+    networks:
+      - flight-search-api-network
+    environment:
+      - "JWT_SECRET_KEY=${JWT_SECRET_KEY}"
+      - "API_URL=${API_URL}"
+      - "DB_USER=${DB_USER}"
+      - "DB_PASSWORD=${DB_PASSWORD}"
+      - "SPRING_PROFILES_ACTIVE=test"
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./data/prometheus/config:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    networks:
+      - flight-search-api-network
+  grafana:
+    image: grafana/grafana-oss:8.5.2
+    pull_policy: always
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SERVER_DOMAIN=localhost
+    networks:
+      - flight-search-api-network
+networks:
+  flight-search-api-network:

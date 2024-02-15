@@ -1,4 +1,4 @@
-package com.cengizhanyavuz.flightsearchapi.business.dto;
+package com.cengizhanyavuz.flightsearchapi.business.dto.user;
 
 import jakarta.validation.constraints.NotEmpty;
 import com.cengizhanyavuz.flightsearchapi.auditing.AuditingAwareBaseDto;

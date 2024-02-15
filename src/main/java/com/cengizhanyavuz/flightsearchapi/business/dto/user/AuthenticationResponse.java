@@ -1,4 +1,4 @@
-package com.cengizhanyavuz.flightsearchapi.auth;
+package com.cengizhanyavuz.flightsearchapi.business.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

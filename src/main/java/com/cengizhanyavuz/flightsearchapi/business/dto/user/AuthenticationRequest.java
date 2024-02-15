@@ -1,4 +1,4 @@
-package com.cengizhanyavuz.flightsearchapi.auth;
+package com.cengizhanyavuz.flightsearchapi.business.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

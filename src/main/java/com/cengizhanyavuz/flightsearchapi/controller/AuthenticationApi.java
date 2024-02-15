@@ -1,8 +1,8 @@
 package com.cengizhanyavuz.flightsearchapi.controller;
 
-import com.cengizhanyavuz.flightsearchapi.auth.AuthenticationRequest;
-import com.cengizhanyavuz.flightsearchapi.auth.AuthenticationResponse;
-import com.cengizhanyavuz.flightsearchapi.auth.RegisterRequest;
+import com.cengizhanyavuz.flightsearchapi.business.dto.user.AuthenticationRequest;
+import com.cengizhanyavuz.flightsearchapi.business.dto.user.AuthenticationResponse;
+import com.cengizhanyavuz.flightsearchapi.business.dto.user.RegisterRequest;
 import com.cengizhanyavuz.flightsearchapi.business.service.impl.AuthenticationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

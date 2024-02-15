@@ -1,8 +1,8 @@
 package com.cengizhanyavuz.flightsearchapi.business.service.impl;
 
-import com.cengizhanyavuz.flightsearchapi.auth.AuthenticationRequest;
-import com.cengizhanyavuz.flightsearchapi.auth.AuthenticationResponse;
-import com.cengizhanyavuz.flightsearchapi.auth.RegisterRequest;
+import com.cengizhanyavuz.flightsearchapi.business.dto.user.AuthenticationRequest;
+import com.cengizhanyavuz.flightsearchapi.business.dto.user.AuthenticationResponse;
+import com.cengizhanyavuz.flightsearchapi.business.dto.user.RegisterRequest;
 import com.cengizhanyavuz.flightsearchapi.config.JwtService;
 import com.cengizhanyavuz.flightsearchapi.data.entity.Token;
 import com.cengizhanyavuz.flightsearchapi.data.entity.User;
